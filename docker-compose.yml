@@ -1,0 +1,90 @@
+version: '3.9'
+services:
+  # La DB en elle meme, les credentials sont dans le .env
+  # Pour y acceder 
+  # http://localhost:8080
+  db:
+    image: postgres:latest
+    container_name: db
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    ports:
+      - 5432:5432
+      - 5433:5433
+    restart: unless-stopped
+    networks:
+      - back-net
+    volumes:
+      - db-vol:/var/lib/postgresql/data
+  # Pour regarder dans la DB, ne fait pas partie du projet
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    networks:
+      - back-net
+  # Le back en lui meme
+  back:
+    build:
+      context: back/docker
+      args:
+       - NODE_V=${NODE_MAJOR}
+       - DB=${POSTGRES_DB}
+       - DBU=${POSTGRES_USER}
+       - DBP=${POSTGRES_PASSWORD}
+    container_name: back
+    ports:
+      - 2000:80 # Note on ne peut pas utiliser 80, 443 car apache tourne a moins de tourner sur VM
+      - 2001:443
+      - 5555:5555 # Prisma studio
+    restart: unless-stopped
+    env_file:
+      - .env
+    #environment:
+    #  - NODE_MAJOR
+    depends_on:
+      - db
+    networks:
+      - back-net
+    volumes:
+      - ./back:/Transcendence:rw
+#      - github-vol:/Transcendence:rw
+  front:
+    build:
+      context: front
+      args:
+       - NODE_V=${NODE_MAJOR}
+    container_name: front
+    ports:
+      - 2002:3000 # Note on ne peut pas utiliser 80, 443 car apache tourne a moins de tourner sur VM
+    restart: unless-stopped
+    # env_file:
+    #   - .env
+    environment:
+     - NODE_MAJOR
+    depends_on:
+      - back
+    networks:
+      - back-net
+    volumes:
+      - ./front:/Transcendence:rw
+#      - github-vol:/Transcendence:rw
+
+networks:
+  back-net:
+    name: back-net
+    driver: bridge
+
+volumes:
+  github-vol:
+    driver: local
+    name: github-volume
+  db-vol:
+    driver: local
+    name: database-volume
