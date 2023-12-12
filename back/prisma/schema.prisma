@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                          Int @unique @id @default(autoincrement())
+  name                        String?
+  surname                     String?
+  nickname                    String?
+  email                       String @unique
+  admin                       Int @default(0)
+  password                    Pass?
+  // lastConnection             DateTime @default(now())
+  pathAvatar                 String @default("avatar/default_avatar.png") //should be stored to avatar/*user_id* 
+  // is_connected               Boolean @default(true)
+  elo                       	Int @default(1000)
+  // division                   Division @relation(fields: [user_divisionId], references: [division_id])
+  // divisionId                 Int @default(0)
+  player1Matches              Game[] @relation("player1")
+  player2Matches              Game[] @relation("player2")
+  channelsMessages            ChannelMessage[]
+  isMemberOf                  IsMemberOf[]
+  PrivateMessages1            PrivateMessage[] @relation("user1")
+  PrivateMessages2            PrivateMessage[] @relation("user2")
+  Friend1                     Friend[] @relation("user1")
+  Friend2                     Friend[] @relation("user2")
+  Blocked1                    Blocked[] @relation("user1")
+  Blocked2                    Blocked[] @relation("user2")
+}
+
+model Pass {
+  user                       User    @relation(fields: [id], references: [id])
+  id                         Int     @unique
+  salted_password            String?
+  salt                       String?
+  // oAuth42Link                String// check OAuth42 ???
+  // googleAuthLink             String// check GoogleAuth ???
+}
+
+// model OAuth42 {
+
+// }
+
+// model GoogleAuth {
+
+// }
+
+model Channel {
+  id                      Int @unique @id @default(autoincrement())
+  name                    String
+  pathImage               String @default("channelImage/default_channel_image.png") //should be stored to channelImage/*channel_id* 
+  privacy                 Boolean @default(false)
+  password                String @default("")
+  creation                DateTime @default(now())
+
+  message                 ChannelMessage[]
+  isMemberOf              IsMemberOf[]
+}
+
+model Division {
+  id                     Int @unique @id @default(autoincrement())
+  name                   String
+  pathImg                String
+}
+
+model Archivement {
+  id                  Int @unique @id @default(autoincrement())
+  name                String
+  description         String?
+  pathImg             String
+}
+
+model Game {
+  id                        Int @unique @id @default(autoincrement())
+  user1                     User @relation(fields: [userId1], references: [id], name: "player1")
+  userId1                   Int
+  user2                     User @relation(fields: [userId2], references: [id], name: "player2")
+  userId2                   Int
+  // // gameMap             GameMap @relation(fields: [match_gameMapId], references: [gameMap_id])
+  // // gameMapId           Int
+  isRanked                  Boolean @default(false)
+  isCyber                   Boolean @default(true)
+  scoreUser1                Int @default(0)
+  scoreUser2                Int @default(0)
+  isOver                    Boolean @default(false)
+  date                      DateTime @default(now())
+}
+
+// // model GameMap {
+// //   id                      Int @unique @id @default(autoincrement())
+// //   name                    String
+// //   pathFile                String
+// //   description             String
+// // }
+
+model Friend {
+  user1                    User @relation(fields: [userId1], references: [id], name: "user1")
+  userId1                  Int
+  user2                    User @relation(fields: [userId2], references: [id], name: "user2")
+  userId2                  Int
+  accepted                 Boolean @default(false)
+
+  @@unique([userId1, userId2])
+}
+
+model Blocked {
+  user1                   User @relation(fields: [userId1], references: [id], name: "user1")
+  userId1                 Int
+  user2                   User @relation(fields: [userId2], references: [id], name: "user2")
+  userId2                 Int
+
+  @@unique([userId1, userId2])
+}
+
+model IsMemberOf {
+  user                 User @relation(fields: [userId], references: [id])
+  userId               Int
+  channel              Channel @relation(fields: [channelId], references: [id])
+  channelId            Int
+  status               String @default("INVITED")
+  dateJoined           DateTime @default(now())
+
+  @@unique([userId, channelId])
+}
+
+//   // string acceptable for isMemberOf_status
+//   // "CREATOR"
+//   // "ADMIN"
+//   // "MEMBER"
+//   // "INVITED"
+//   // "MUTE"
+//   // "BAN"
+
+model ChannelMessage {
+  user             User @relation(fields: [userId], references: [id])
+  userId           Int
+  channel          Channel @relation(fields: [channelId], references: [id])
+  channelId        Int
+  date             DateTime @default(now())
+  content          String
+
+  @@unique([userId, channelId, date])
+}
+
+model PrivateMessage {
+  user1            User @relation(fields: [userId1], references: [id], name: "user1")
+  userId1          Int
+  user2            User @relation(fields: [userId2], references: [id], name: "user2")
+  userId2          Int
+  date             DateTime @default(now())
+  content          String
+
+  @@unique([userId1, userId2, date])
+}
+
+// model ArchivementDone {
+//   user            User @relation(fields: [userId], references: [user_id])
+//   userId          Int
+//   archivement     User @relation(fields: [userId], references: [user_id])
+//   archivementId   Int
+//   date            DateTime @default(now())
+
+//   @@unique([userId, archivementId])
+// }
