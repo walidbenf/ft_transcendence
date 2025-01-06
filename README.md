@@ -53,16 +53,27 @@ Google Authenticator or sending a text message to their phone.
 - Stats (such as: wins and losses, ladder level, achievements, and so forth) have to
 be displayed on the user profile.
 - Each user should have a Match History including 1v1 games, ladder, and anything else useful. Anyone who is logged in should be able to consult it.
-- 
+  
 ### Chat
-- Don’t implement the buffer management of the original printf().
-- Your function has to handle the following conversions: cspdiuxX%
-- Your function will be compared against the original printf().
-- You must use the command ar to create your library.
-Using the libtool command is forbidden.
-- Your libftprintf.a has to be created at the root of your repository
+You also have to create a chat for your users:
 
-##### You have to implement the following conversions:
+- The user should be able to create channels (chat rooms) that can be either public,
+or private, or protected by a password.
+- The user should be able to send direct messages to other users.
+- The user should be able to block other users. This way, they will see no more
+messages from the account they blocked.
+- The user who has created a new channel is automatically set as the channel owner
+until they leave it.
+◦ The channel owner can set a password required to access the channel, change
+it, and also remove it.
+◦ The channel owner is a channel administrator. They can set other users as
+administrators.
+◦ The administrators of a channel can ban or mute users for a limited time.
+- The user should be able to invite other users to play a Pong game through the chat
+interface.
+- The user should be able to access other players profiles through the chat interface
+
+### Game
 - %c Prints a single character.
 - %s Prints a string (as defined by the common C convention).
 - %p The void * pointer argument has to be printed in hexadecimal format.
@@ -73,22 +84,7 @@ Using the libtool command is forbidden.
 - %X Prints a number in hexadecimal (base 16) uppercase format.
 - %% Prints a percent sign.
 
-## Bonus part
-###### You don’t have to do all the bonuses.
-##### Bonus list:
-- Manage any combination of the following flags: ’-0.’ and the field minimum width
-under all conversions.
-- Manage all the following flags: ’# +’ (Yes, one of them is a space)
 
-## Installation
-
-ft_printf requires gcc or any other c compiler
-
-```sh
-cd ft_printf
-Make
-./a.out
-```
 ## Important 
 This project was made on Mac OS you may encounter problems on other OS.\
 This is the new subject, I did it a few years ago, it may not be exactly the same.
