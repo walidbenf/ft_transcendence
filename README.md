@@ -1,5 +1,3 @@
 # Transcendence
 
-Mockup du projet: https://www.canva.com/design/DAFpjE749RU/sX1R3qi-L8FaDcHGHH9SZg/edit?utm_content=DAFpjE749RU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
-
-notes : add to back dist folder and node_modules for front
+Site web qui permet de jouer à pong en ligne en 1v1 avec un des rankeds,un classement,des channels et message privés implémentés ainsi qu'un système d'ajouts d'amis et de duel.
