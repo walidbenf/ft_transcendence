@@ -36,9 +36,25 @@ website.
 - Everything has to be launch by a single call to: docker-compose up --build
 
 ### Security concerns
-
-
-##### Here are the requirements:
+- Any password stored in your database must be hashed.
+- Your website must be protected against SQL injections
+-  You must implement some kind of server-side validation for forms and any user
+input.
+### User Account
+- The user must login using the OAuth system of 42 intranet.
+- The user should be able to choose a unique name that will be displayed on the
+website.
+- The user should be able to upload an avatar. If the user doesn’t upload an avatar,
+a default one must be set.
+- The user should be able to enable two-factor authentication. For instance,
+Google Authenticator or sending a text message to their phone.
+- The user should be able to add other users as friends and see their current status
+(online, offline, in a game, and so forth).
+- Stats (such as: wins and losses, ladder level, achievements, and so forth) have to
+be displayed on the user profile.
+- Each user should have a Match History including 1v1 games, ladder, and anything else useful. Anyone who is logged in should be able to consult it.
+- 
+### Chat
 - Don’t implement the buffer management of the original printf().
 - Your function has to handle the following conversions: cspdiuxX%
 - Your function will be compared against the original printf().
