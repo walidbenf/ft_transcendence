@@ -74,18 +74,23 @@ interface.
 - The user should be able to access other players profiles through the chat interface
 
 ### Game
-- %c Prints a single character.
-- %s Prints a string (as defined by the common C convention).
-- %p The void * pointer argument has to be printed in hexadecimal format.
-- %d Prints a decimal (base 10) number.
-- %i Prints an integer in base 10.
-- %u Prints an unsigned decimal (base 10) number.
-- %x Prints a number in hexadecimal (base 16) lowercase format.
-- %X Prints a number in hexadecimal (base 16) uppercase format.
-- %% Prints a percent sign.
+The main purpose of this website is to play Pong versus other players and show everyone
+how good you are!
 
+- Therefore, users should be able to play a live Pong game versus another player
+directly on the website
+- There must be a matchmaking system: the user can join a queue until they get
+automatically matched with someone else.
+- It can be a canvas game, or it can be a game rendered in 3D, it can also be ugly,
+but in any case, it must be faithful to the original Pong (1972).
+- You must offer some customization options (for example, power-ups or different
+maps). However, the user should be able to select a default version of the game
+without any extra features if they want to.
+- The game must be responsive!
+- The user should be able to watch a live play between other users without interfering
+with it.
 
 ## Important 
-This project was made on Mac OS you may encounter problems on other OS.\
-This is the new subject, I did it a few years ago, it may not be exactly the same.
+If you clone the site, it might not work because many dependencies are missing.
+I've left some source code.
 
